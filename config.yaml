@@ -2,7 +2,7 @@ name: LD2450 Zone Manager
 version: "1.0.0"
 slug: ld2450_zone_manager
 description: Professional mmWave sensor zone configuration for LD2450 devices
-url: https://github.com/YOUR_USERNAME/ld2450-zone-manager
+url: https://github.com/nmcrae85/ld2450-zone-manager
 arch:
   - armhf
   - armv7
@@ -18,4 +18,6 @@ options:
   log_level: info
 schema:
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
-image: ghcr.io/home-assistant/{arch}-addon-base-python:3.11-alpine3.18
+init: false
+map:
+  - share:rw

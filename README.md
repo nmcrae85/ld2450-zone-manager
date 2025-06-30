@@ -1,6 +1,6 @@
 # LD2450 Zone Manager
 
-[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FYOUR_USERNAME%2Fld2450-zone-manager)
+[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fnmcrae85%2Fld2450-zone-manager)
 
 A professional Home Assistant add-on for configuring and managing LD2450 mmWave sensor zones. Built with custom branding and enhanced features that improve upon the Everything Presence Lite configurator.
 
@@ -9,7 +9,7 @@ A professional Home Assistant add-on for configuring and managing LD2450 mmWave 
 Click the button above or manually add this repository URL to your Home Assistant add-on store:
 
 ```
-https://github.com/YOUR_USERNAME/ld2450-zone-manager
+https://github.com/nmcrae85/ld2450-zone-manager
 ```
 
 ## Installation Steps
@@ -18,7 +18,7 @@ https://github.com/YOUR_USERNAME/ld2450-zone-manager
    - Go to Settings → Add-ons → Add-on Store
    - Click the three dots (⋮) in the top right
    - Select "Repositories"
-   - Add: `https://github.com/YOUR_USERNAME/ld2450-zone-manager`
+   - Add: `https://github.com/nmcrae85/ld2450-zone-manager`
 
 2. **Install Add-on**:
    - Find "LD2450 Zone Manager" in the add-on store
