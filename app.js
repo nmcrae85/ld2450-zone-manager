@@ -127,12 +127,24 @@ class LD2450ZoneManager {
         this.applyTheme();
     }
     
+    normalizeUrl(url) {
+        // Remove trailing slash and ensure proper HTTP protocol
+        url = url.replace(/\/+$/, '');
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = 'http://' + url;
+        }
+        return url;
+    }
+
     async connect() {
         this.updateConnectionStatus('connecting');
         
         try {
+            // Normalize the URL before using it
+            const normalizedUrl = this.normalizeUrl(this.config.haUrl);
+            
             // Test connection
-            const response = await fetch(`${this.config.haUrl}/api/`, {
+            const response = await fetch(`${normalizedUrl}/api/`, {
                 headers: {
                     'Authorization': `Bearer ${this.config.haToken}`,
                     'Content-Type': 'application/json'
@@ -140,6 +152,10 @@ class LD2450ZoneManager {
             });
             
             if (response.ok) {
+                // Update config with normalized URL
+                this.config.haUrl = normalizedUrl;
+                localStorage.setItem('ld2450_ha_url', normalizedUrl);
+                
                 this.updateConnectionStatus('connected');
                 await this.discoverDevices();
                 this.startDataRefresh();
@@ -176,7 +192,8 @@ class LD2450ZoneManager {
     
     async discoverDevices() {
         try {
-            const response = await fetch(`${this.config.haUrl}/api/states`, {
+            const normalizedUrl = this.normalizeUrl(this.config.haUrl);
+            const response = await fetch(`${normalizedUrl}/api/states`, {
                 headers: {
                     'Authorization': `Bearer ${this.config.haToken}`,
                     'Content-Type': 'application/json'
@@ -253,7 +270,8 @@ class LD2450ZoneManager {
         if (!this.selectedDevice) return;
         
         try {
-            const response = await fetch(`${this.config.haUrl}/api/states`, {
+            const normalizedUrl = this.normalizeUrl(this.config.haUrl);
+            const response = await fetch(`${normalizedUrl}/api/states`, {
                 headers: {
                     'Authorization': `Bearer ${this.config.haToken}`,
                     'Content-Type': 'application/json'
@@ -1006,7 +1024,8 @@ class LD2450ZoneManager {
     }
     
     async setEntityValue(entityId, value) {
-        const response = await fetch(`${this.config.haUrl}/api/services/number/set_value`, {
+        const normalizedUrl = this.normalizeUrl(this.config.haUrl);
+        const response = await fetch(`${normalizedUrl}/api/services/number/set_value`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${this.config.haToken}`,
