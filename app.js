@@ -10,9 +10,15 @@ class LD2450ZoneManager {
         this.previewCanvas = null;
         this.previewCtx = null;
         
-        // Configuration
+        // Configuration - clear any malformed URLs from cache
+        const storedUrl = localStorage.getItem('ld2450_ha_url') || '';
+        const cleanUrl = storedUrl.includes('http://http:') ? '' : storedUrl;
+        if (storedUrl !== cleanUrl) {
+            localStorage.removeItem('ld2450_ha_url');
+        }
+        
         this.config = {
-            haUrl: localStorage.getItem('ld2450_ha_url') || '',
+            haUrl: cleanUrl,
             haToken: localStorage.getItem('ld2450_ha_token') || '',
             refreshRate: parseInt(localStorage.getItem('ld2450_refresh_rate')) || 500,
             showGrid: localStorage.getItem('ld2450_show_grid') !== 'false',
@@ -128,12 +134,19 @@ class LD2450ZoneManager {
     }
     
     normalizeUrl(url) {
-        // Remove trailing slash and ensure proper HTTP protocol
+        if (!url) return '';
+        
+        // Clean up the URL
+        url = url.trim();
+        
+        // Remove any existing protocol prefixes first
+        url = url.replace(/^https?:\/\//, '');
+        
+        // Remove trailing slash
         url = url.replace(/\/+$/, '');
-        if (!url.startsWith('http://') && !url.startsWith('https://')) {
-            url = 'http://' + url;
-        }
-        return url;
+        
+        // Add http:// prefix
+        return 'http://' + url;
     }
 
     async connect() {
@@ -142,6 +155,8 @@ class LD2450ZoneManager {
         try {
             // Normalize the URL before using it
             const normalizedUrl = this.normalizeUrl(this.config.haUrl);
+            console.log('Original URL:', this.config.haUrl);
+            console.log('Normalized URL:', normalizedUrl);
             
             // Test connection
             const response = await fetch(`${normalizedUrl}/api/`, {
